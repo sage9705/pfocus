@@ -4,9 +4,15 @@ A Python GUI application built with Tkinter, designed to help users improve prod
 ## Features
 
 - **Pomodoro Timer**: Set to 25 minutes of work time and 5 minutes of break time.
-- **Start/Reset Buttons**: Easily start or reset the timer.
-- **Visual Countdown**: Displays remaining time in minutes and seconds.
+- **Start/Pause/Reset Buttons**: Easily control the timer.
+- **Customizable Work and Break Times**: Users can set their desired work and break durations.
+- **Audio Alerts**: Sound notifications at the end of each session.
 - **User-Friendly Interface**: Clean and straightforward UI for seamless usage.
+
+## Menu Items
+
+- **Set Work Time**: Allows the user to set the duration of the work session.
+- **Set Break Time**: Allows the user to set the duration of the break session.
 
 ## How to Use
 

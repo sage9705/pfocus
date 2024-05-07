@@ -78,7 +78,7 @@ class PomodoroTimer(QMainWindow):
 
         self.timer_label = QLabel()
         self.timer_label.setObjectName("timer_label")
-        self.timer_label.setAlignment(Qt.AlignCenter)
+        self.timer_label.setAlignment(Qt.AlignCenter)  # Center align the timer label
 
         self.start_button = QPushButton("Start")
         self.start_button.setObjectName("start_button")
@@ -97,11 +97,15 @@ class PomodoroTimer(QMainWindow):
         button_layout.addWidget(self.pause_button)
         button_layout.addWidget(self.reset_button)
 
+        # Create a vertical spacer to center the timer label
+        spacer = QVBoxLayout()
+        spacer.addStretch()
+        spacer.addWidget(self.timer_label)
+        spacer.addStretch()
+
         main_layout = QVBoxLayout()
-        main_layout.addWidget(self.timer_label)
-        main_layout.addStretch(1)
+        main_layout.addLayout(spacer)  # Place the timer label in the center
         main_layout.addLayout(button_layout)  # Buttons at the bottom
-        main_layout.setAlignment(Qt.AlignTop)  # Align buttons to the top
 
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
@@ -111,6 +115,7 @@ class PomodoroTimer(QMainWindow):
 
         # Load CSS file
         self.load_stylesheet("style.css")
+
 
 
     def create_menu_bar(self):
@@ -174,6 +179,8 @@ class PomodoroTimer(QMainWindow):
         time_str = '{:02d}:{:02d}'.format(minutes, seconds)
         self.timer_label.setText(time_str)
 
+
+
     def show_completion_notification(self, session_type):
         if session_type == "Work":
             message = "Break time's over. Get back to work!"
@@ -183,9 +190,18 @@ class PomodoroTimer(QMainWindow):
             message = "Work session completed. Take a break! "
             self.timer.work_sound.stop()
             self.timer.break_sound.play()
-        QMessageBox.information(self, "Session Complete", message)
+        
+        # Create a QMessageBox without the question mark icon
+        message_box = QMessageBox(self)
+        message_box.setIcon(QMessageBox.Information)
+        message_box.setWindowTitle("Session Complete")
+        message_box.setText(message)
+        message_box.exec_()
+
+        
 
 def main():
+    QApplication.setAttribute(Qt.AA_DisableWindowContextHelpButton)
     app = QApplication(sys.argv)
     window = PomodoroTimer()
     window.show()
