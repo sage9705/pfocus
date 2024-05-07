@@ -66,7 +66,7 @@ class PomodoroTimer(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle("Pomodoro Timer")
-        self.setGeometry(100, 100, 300, 150)
+        self.setGeometry(300, 300, 500, 350)
 
         self.timer = Timer(25 * 60, 5 * 60, "work_sound.mp3", "break_sound.mp3")
         self.timer.timer_updated.connect(self.update_time_display)
@@ -95,9 +95,9 @@ class PomodoroTimer(QMainWindow):
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.timer_label)
-        main_layout.addLayout(button_layout)
-        main_layout.setSpacing(20)
-        main_layout.setAlignment(Qt.AlignCenter)
+        main_layout.addStretch(1)
+        main_layout.addLayout(button_layout)  # Buttons at the bottom
+        main_layout.setAlignment(Qt.AlignTop)  # Align buttons to the top
 
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
@@ -107,6 +107,7 @@ class PomodoroTimer(QMainWindow):
 
         # Load CSS file
         self.load_stylesheet("style.css")
+
 
     def create_menu_bar(self):
         menu_bar = self.menuBar()
@@ -181,6 +182,7 @@ def main():
     window = PomodoroTimer()
     window.show()
     sys.exit(app.exec_())
+    
 
 if __name__ == "__main__":
     main()
