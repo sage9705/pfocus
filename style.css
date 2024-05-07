@@ -1,0 +1,36 @@
+#timer_label {
+    font-size: 36px;
+    color: #333;
+}
+
+#start_button, #pause_button, #reset_button, #work_time_button, #break_time_button {
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+#start_button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#pause_button {
+    background-color: #FFC107;
+    color: white;
+}
+
+#reset_button {
+    background-color: #f44336;
+    color: white;
+}
+
+#work_time_button {
+    background-color: #2196F3;
+    color: white;
+}
+
+#break_time_button {
+    background-color: #9C27B0;
+    color: white;
+}
