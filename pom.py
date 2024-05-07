@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox, QAction, QMenu, QMainWindow
 from PyQt5.QtCore import QTimer, Qt, QFile, QTextStream, pyqtSignal, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
@@ -58,9 +58,13 @@ class Timer(QWidget):
                 self.break_sound.play()
         self.timer_updated.emit()
 
-class PomodoroTimer(QWidget):
+class PomodoroTimer(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
         self.setWindowTitle("Pomodoro Timer")
         self.setGeometry(100, 100, 300, 150)
 
@@ -84,20 +88,10 @@ class PomodoroTimer(QWidget):
         self.reset_button.setObjectName("reset_button")
         self.reset_button.clicked.connect(self.reset_timer)
 
-        self.work_time_button = QPushButton("Set Work Time")
-        self.work_time_button.setObjectName("work_time_button")
-        self.work_time_button.clicked.connect(self.set_work_time)
-
-        self.break_time_button = QPushButton("Set Break Time")
-        self.break_time_button.setObjectName("break_time_button")
-        self.break_time_button.clicked.connect(self.set_break_time)
-
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.start_button)
         button_layout.addWidget(self.pause_button)
         button_layout.addWidget(self.reset_button)
-        button_layout.addWidget(self.work_time_button)
-        button_layout.addWidget(self.break_time_button)
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.timer_label)
@@ -105,10 +99,31 @@ class PomodoroTimer(QWidget):
         main_layout.setSpacing(20)
         main_layout.setAlignment(Qt.AlignCenter)
 
-        self.setLayout(main_layout)
+        central_widget = QWidget()
+        central_widget.setLayout(main_layout)
+        self.setCentralWidget(central_widget)
+
+        self.create_menu_bar()
 
         # Load CSS file
         self.load_stylesheet("style.css")
+
+    def create_menu_bar(self):
+        menu_bar = self.menuBar()
+
+        # Create the Settings menu
+        settings_menu = menu_bar.addMenu("☰")
+        settings_menu.setObjectName("settings_menu")
+
+        # Add actions to the Settings menu
+        set_work_time_action = QAction("Set Work Time", self)
+        set_work_time_action.triggered.connect(self.set_work_time)
+        settings_menu.addAction(set_work_time_action)
+
+        set_break_time_action = QAction("Set Break Time", self)
+        set_break_time_action.triggered.connect(self.set_break_time)
+        settings_menu.addAction(set_break_time_action)
+
 
     def load_stylesheet(self, filename):
         style = QFile(filename)

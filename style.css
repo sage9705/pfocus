@@ -82,3 +82,34 @@ QPushButton:pressed {
     background-color: #84776d; /* Darker nude on hover */
     cursor: pointer;
 }
+
+/* Settings Menu */
+QMenu {
+    background-color: #f2e9e4; /* Light nude background */
+    border: none;
+}
+
+QMenu::item {
+    padding: 8px 32px; /* Adjust padding as needed */
+    background-color: #e4d7cb; /* Nude background */
+}
+
+QMenu::item:selected {
+    background-color: #d0b8a8; /* Lighter nude background when selected */
+    color: #725752; /* Dark nude text */
+}
+
+/* Hamburger Icon */
+#settings_menu {
+    background-color: transparent;
+    border: none;
+    font-size: 24px; /* Adjust size as needed */
+    color: #725752; /* Dark nude text */
+    padding: 8px;
+}
+
+#settings_menu:hover {
+    background-color: #d0b8a8; /* Lighter nude background on hover */
+    border-radius: 5px; /* Add rounded corners */
+    cursor: pointer;
+}
