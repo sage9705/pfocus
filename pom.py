@@ -3,13 +3,11 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLay
 from PyQt5.QtCore import QTimer, Qt, QFile, QTextStream, pyqtSignal, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
-from PyQt5.QtGui import QIcon
-
 class Timer(QWidget):
     timer_updated = pyqtSignal()
     session_completed = pyqtSignal(str)
 
-    def __init__(self, work_time, break_time):
+    def __init__(self, work_time, break_time, work_sound, break_sound):
         super().__init__()
         self.work_time = work_time
         self.break_time = break_time
@@ -20,8 +18,11 @@ class Timer(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_timer)
 
-        self.player = QMediaPlayer()
-        self.player.setMedia(QMediaContent(QUrl.fromLocalFile("system-notification-4-206493.mp3")))
+        self.work_sound = QMediaPlayer()
+        self.work_sound.setMedia(QMediaContent(QUrl.fromLocalFile(work_sound)))
+
+        self.break_sound = QMediaPlayer()
+        self.break_sound.setMedia(QMediaContent(QUrl.fromLocalFile(break_sound)))
 
     def start(self):
         if self.current_time == 0:
@@ -51,7 +52,10 @@ class Timer(QWidget):
             self.current_time -= 1
         else:
             self.switch_mode()
-            self.player.play()
+            if self.is_working:
+                self.work_sound.play()
+            else:
+                self.break_sound.play()
         self.timer_updated.emit()
 
 class PomodoroTimer(QWidget):
@@ -60,7 +64,7 @@ class PomodoroTimer(QWidget):
         self.setWindowTitle("Pomodoro Timer")
         self.setGeometry(100, 100, 300, 150)
 
-        self.timer = Timer(25 * 60, 5 * 60)
+        self.timer = Timer(25 * 60, 5 * 60, "work_sound.mp3", "break_sound.mp3")
         self.timer.timer_updated.connect(self.update_time_display)
         self.timer.session_completed.connect(self.show_completion_notification)
 
