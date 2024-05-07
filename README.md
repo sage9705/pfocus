@@ -20,7 +20,7 @@ A Python GUI application built with Tkinter, designed to help users improve prod
 ## Dependencies
 
 - Python 3.x
-- Tkinter
+- PyQt5
 
 ## Usage
 
