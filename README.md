@@ -1,5 +1,5 @@
 # pfocus
-A Python GUI application built with PyQt5, designed to help users improve productivity using the Pomodoro technique. This timer alternates between work and break periods, aiding in focused work sessions. Perfect for boosting concentration and managing tasks efficiently.
+A Python GUI application built with Tkinter, designed to help users improve productivity using the Pomodoro technique. This timer alternates between work and break periods, aiding in focused work sessions. Perfect for boosting concentration and managing tasks efficiently.
 
 ## Features
 
@@ -26,3 +26,15 @@ A Python GUI application built with PyQt5, designed to help users improve produc
 
 ```bash
 python pom.py
+
+```
+
+## Contributing
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please feel free to open an issue or create a pull request.
+
+
+## License
+
+This project is licensed under the MIT License - see the [https://github.com/sage9705/pfocus/blob/master/LICENSE](LICENSE) file for details.
+
+
