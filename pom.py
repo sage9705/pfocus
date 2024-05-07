@@ -40,10 +40,14 @@ class Timer(QWidget):
         self.is_working = not self.is_working
         if self.is_working:
             self.current_time = self.work_time
+            if self.completed_sessions["Break"] > 0:
+                self.completed_sessions["Break"] -= 1
             self.completed_sessions["Work"] += 1
             self.session_completed.emit("Work")
         else:
             self.current_time = self.break_time
+            if self.completed_sessions["Work"] > 0:
+                self.completed_sessions["Work"] -= 1
             self.completed_sessions["Break"] += 1
             self.session_completed.emit("Break")
 
@@ -172,9 +176,13 @@ class PomodoroTimer(QMainWindow):
 
     def show_completion_notification(self, session_type):
         if session_type == "Work":
-            message = "Work session completed. Take a break!"
-        else:
             message = "Break time's over. Get back to work!"
+            self.timer.break_sound.stop()
+            self.timer.work_sound.play()
+        else:
+            message = "Work session completed. Take a break! "
+            self.timer.work_sound.stop()
+            self.timer.break_sound.play()
         QMessageBox.information(self, "Session Complete", message)
 
 def main():
