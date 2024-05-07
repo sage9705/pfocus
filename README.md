@@ -35,6 +35,6 @@ Contributions are welcome! If you have any suggestions, bug reports, or feature 
 
 ## License
 
-This project is licensed under the MIT License - see the [https://github.com/sage9705/pfocus/blob/master/LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/sage9705/pfocus/blob/master/LICENSE) file for details.
 
 
