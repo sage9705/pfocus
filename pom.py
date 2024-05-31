@@ -1,7 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox, QAction, QMenu, QMainWindow
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox, QAction, QMainWindow
 from PyQt5.QtCore import QTimer, Qt, QFile, QTextStream, pyqtSignal, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+
+
+WORK_MINUTES = 25
+BREAK_MINUTES = 5
 
 class Timer(QWidget):
     timer_updated = pyqtSignal()
@@ -24,6 +28,11 @@ class Timer(QWidget):
         self.break_sound = QMediaPlayer()
         self.break_sound.setMedia(QMediaContent(QUrl.fromLocalFile(break_sound)))
 
+        # Handle file loading errors
+        if not self.work_sound.isAvailable() or not self.break_sound.isAvailable():
+            QMessageBox.critical(self, "Error", "Failed to load sound files.")
+            return
+
     def start(self):
         if self.current_time == 0:
             self.switch_mode()
@@ -40,15 +49,15 @@ class Timer(QWidget):
         self.is_working = not self.is_working
         if self.is_working:
             self.current_time = self.work_time
+            self.completed_sessions["Work"] += 1
             if self.completed_sessions["Break"] > 0:
                 self.completed_sessions["Break"] -= 1
-            self.completed_sessions["Work"] += 1
             self.session_completed.emit("Work")
         else:
             self.current_time = self.break_time
+            self.completed_sessions["Break"] += 1
             if self.completed_sessions["Work"] > 0:
                 self.completed_sessions["Work"] -= 1
-            self.completed_sessions["Break"] += 1
             self.session_completed.emit("Break")
 
     def update_timer(self):
@@ -72,60 +81,55 @@ class PomodoroTimer(QMainWindow):
         self.setWindowTitle("Pomodoro Timer")
         self.setGeometry(300, 300, 500, 350)
 
-        self.timer = Timer(25 * 60, 5 * 60, "work_sound.mp3", "break_sound.mp3")
+        self.timer = Timer(WORK_MINUTES * 60, BREAK_MINUTES * 60, "work_sound.mp3", "break_sound.mp3")
         self.timer.timer_updated.connect(self.update_time_display)
         self.timer.session_completed.connect(self.show_completion_notification)
 
         self.timer_label = QLabel()
         self.timer_label.setObjectName("timer_label")
-        self.timer_label.setAlignment(Qt.AlignCenter)  # Center align the timer label
+        self.timer_label.setAlignment(Qt.AlignCenter)
 
         self.start_button = QPushButton("Start")
         self.start_button.setObjectName("start_button")
         self.start_button.clicked.connect(self.start_timer)
-
+        self.start_button.setToolTip("Start the timer")
+        
         self.pause_button = QPushButton("Pause")
         self.pause_button.setObjectName("pause_button")
         self.pause_button.clicked.connect(self.pause_resume_timer)
+        self.pause_button.setToolTip("Pause or resume the timer")
 
         self.reset_button = QPushButton("Reset")
         self.reset_button.setObjectName("reset_button")
         self.reset_button.clicked.connect(self.reset_timer)
+        self.reset_button.setToolTip("Reset the timer")
 
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.start_button)
         button_layout.addWidget(self.pause_button)
         button_layout.addWidget(self.reset_button)
 
-        # Create a vertical spacer to center the timer label
-        spacer = QVBoxLayout()
-        spacer.addStretch()
-        spacer.addWidget(self.timer_label)
-        spacer.addStretch()
-
         main_layout = QVBoxLayout()
-        main_layout.addLayout(spacer)  # Place the timer label in the center
-        main_layout.addLayout(button_layout)  # Buttons at the bottom
+        main_layout.addWidget(self.timer_label, alignment=Qt.AlignCenter)
+        main_layout.addLayout(button_layout)
 
         central_widget = QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
         self.create_menu_bar()
-
-        # Load CSS file
         self.load_stylesheet("style.css")
 
-
+        
+        self.start_button.setShortcut(Qt.Key_S)
+        self.pause_button.setShortcut(Qt.Key_P)
+        self.reset_button.setShortcut(Qt.Key_R)
 
     def create_menu_bar(self):
         menu_bar = self.menuBar()
-
-        # Create the Settings menu
         settings_menu = menu_bar.addMenu("☰")
         settings_menu.setObjectName("settings_menu")
 
-        # Add actions to the Settings menu
         set_work_time_action = QAction("Set Work Time", self)
         set_work_time_action.triggered.connect(self.set_work_time)
         settings_menu.addAction(set_work_time_action)
@@ -133,7 +137,6 @@ class PomodoroTimer(QMainWindow):
         set_break_time_action = QAction("Set Break Time", self)
         set_break_time_action.triggered.connect(self.set_break_time)
         settings_menu.addAction(set_break_time_action)
-
 
     def load_stylesheet(self, filename):
         style = QFile(filename)
@@ -154,12 +157,14 @@ class PomodoroTimer(QMainWindow):
             self.pause_button.setText("Pause")
 
     def reset_timer(self):
-        self.timer.stop()
-        self.timer.reset()
-        self.update_time_display()
+        confirmation = QMessageBox.question(self, "Confirmation", "Are you sure you want to reset the timer?", QMessageBox.Yes | QMessageBox.No)
+        if confirmation == QMessageBox.Yes:
+            self.timer.stop()
+            self.timer.reset()
+            self.update_time_display()
 
     def set_work_time(self):
-        new_time, ok_pressed = QInputDialog.getInt(self, "Set Work Time", "Minutes:", self.timer.work_time // 60, 1, 60, 1)
+        new_time, ok_pressed = QInputDialog.getInt(self, "Set Work Time", "Minutes:", WORK_MINUTES, 1, 60, 1)
         if ok_pressed:
             self.timer.work_time = new_time * 60
             if self.timer.is_working:
@@ -167,7 +172,7 @@ class PomodoroTimer(QMainWindow):
                 self.update_time_display()
 
     def set_break_time(self):
-        new_time, ok_pressed = QInputDialog.getInt(self, "Set Break Time", "Minutes:", self.timer.break_time // 60, 1, 60, 1)
+        new_time, ok_pressed = QInputDialog.getInt(self, "Set Break Time", "Minutes:", BREAK_MINUTES, 1, 60, 1)
         if ok_pressed:
             self.timer.break_time = new_time * 60
             if not self.timer.is_working:
@@ -179,8 +184,6 @@ class PomodoroTimer(QMainWindow):
         time_str = '{:02d}:{:02d}'.format(minutes, seconds)
         self.timer_label.setText(time_str)
 
-
-
     def show_completion_notification(self, session_type):
         if session_type == "Work":
             message = "Break time's over. Get back to work!"
@@ -190,15 +193,12 @@ class PomodoroTimer(QMainWindow):
             message = "Work session completed. Take a break! "
             self.timer.work_sound.stop()
             self.timer.break_sound.play()
-        
-        # Create a QMessageBox without the question mark icon
+
         message_box = QMessageBox(self)
         message_box.setIcon(QMessageBox.Information)
         message_box.setWindowTitle("Session Complete")
         message_box.setText(message)
         message_box.exec_()
-
-        
 
 def main():
     QApplication.setAttribute(Qt.AA_DisableWindowContextHelpButton)
@@ -206,7 +206,7 @@ def main():
     window = PomodoroTimer()
     window.show()
     sys.exit(app.exec_())
-    
 
 if __name__ == "__main__":
     main()
+
