@@ -1,9 +1,10 @@
 import sys
+import os
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox, QAction, QMainWindow
 from PyQt5.QtCore import QTimer, Qt, QFile, QTextStream, pyqtSignal, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
-
+# Constants for time units
 WORK_MINUTES = 25
 BREAK_MINUTES = 5
 
@@ -120,7 +121,7 @@ class PomodoroTimer(QMainWindow):
         self.create_menu_bar()
         self.load_stylesheet("style.css")
 
-        
+        # Set keyboard shortcuts
         self.start_button.setShortcut(Qt.Key_S)
         self.pause_button.setShortcut(Qt.Key_P)
         self.reset_button.setShortcut(Qt.Key_R)
@@ -139,11 +140,12 @@ class PomodoroTimer(QMainWindow):
         settings_menu.addAction(set_break_time_action)
 
     def load_stylesheet(self, filename):
-        style = QFile(filename)
-        if not style.open(QFile.ReadOnly | QFile.Text):
-            return
-        stream = QTextStream(style)
-        QApplication.instance().setStyleSheet(stream.readAll())
+        css_file = os.path.join(os.path.dirname(__file__), filename)
+        if os.path.exists(css_file):
+            style = QFile(css_file)
+            if style.open(QFile.ReadOnly | QFile.Text):
+                stream = QTextStream(style)
+                QApplication.instance().setStyleSheet(stream.readAll())
 
     def start_timer(self):
         self.timer.start()

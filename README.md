@@ -1,27 +1,34 @@
 # pfocus
-A Python GUI application built with Tkinter, designed to help users improve productivity using the Pomodoro technique. This timer alternates between work and break periods, aiding in focused work sessions. Perfect for boosting concentration and managing tasks efficiently.
+## Overview
+The Pomodoro Timer application (pfocus) is a productivity tool designed to help users manage their time effectively using the Pomodoro Technique. It allows users to set work and break durations and notifies them when each session is completed.
+
 
 ## Features
+- Set customizable work and break durations.
+- Start, pause, and reset the timer.
+- Display notifications when work or break sessions are completed.
+- Keyboard shortcuts for convenient timer control.
+- Error handling for sound file loading failures.
+- Confirmation dialog for resetting the timer.
 
-- **Pomodoro Timer**: Set to 25 minutes of work time and 5 minutes of break time.
-- **Start/Pause/Reset Buttons**: Easily control the timer.
-- **Customizable Work and Break Times**: Users can set their desired work and break durations.
-- **Audio Alerts**: Sound notifications at the end of each session.
-- **User-Friendly Interface**: Clean and straightforward UI for seamless usage.
-
-## Menu Items
-
-- **Set Work Time**: Allows the user to set the duration of the work session.
-- **Set Break Time**: Allows the user to set the duration of the break session.
+## Changes Made
+1. **Constants for Time Units**: Used constants `WORK_MINUTES` and `BREAK_MINUTES` to set default work and break durations for improved readability and maintainability.
+2. **UI Layout Refactoring**: Restructured the UI layout for better organization and alignment, enhancing user experience.
+3. **Session Counters**: Added functionality to display the number of completed work and break sessions, providing users with progress tracking.
+4. **Styling and Theming**: Implemented a separate CSS file handling using the `os.path` module for styling and theming.
+5. **File Loading Error Handling**: Implemented error handling for sound file loading failures to notify users when there's an issue.
+6. **Button Tooltips**: Added tooltips for buttons to provide users with hints about their functionality for better usability.
+7. **Keyboard Shortcuts**: Implemented keyboard shortcuts for common actions like starting, pausing, and resetting the timer for enhanced accessibility.
+8. **Sound Playback Optimization**: Optimized sound playback to ensure smooth performance during work and break sessions.
+9. **Confirmation Dialog**: Added a confirmation dialog for resetting the timer to prevent accidental resets and data loss.
 
 ## How to Use
+1. **Setting Work and Break Durations**: Click on "☰" in the menu bar and select "Set Work Time" or "Set Break Time" to adjust the durations.
+2. **Starting the Timer**: Click on the "Start" button or use the keyboard shortcut "S" to start the timer.
+3. **Pausing/Resuming the Timer**: Click on the "Pause" button or use the keyboard shortcut "P" to pause or resume the timer.
+4. **Resetting the Timer**: Click on the "Reset" button or use the keyboard shortcut "R" to reset the timer. A confirmation dialog will appear to confirm the action.
+5. **Session Notifications**: Notifications will appear when each work or break session is completed.
 
-1. Clone this repository to your local machine.
-2. Make sure you have Python installed.
-3. Run the `pom.py` file using Python.
-4. Click the "Start" button to begin the timer.
-5. Click the "Reset" button to reset the timer.
-6. Focus on your tasks during work sessions and take breaks during break periods.
 
 ## Dependencies
 
