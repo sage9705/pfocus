@@ -1,108 +1,102 @@
-/* Widget Background */
 QWidget {
-    background-color: #f2e9e4; /* Light nude background */
+    background-color: #7fb7be; 
 }
 
 /* Timer Label */
 #timer_label {
     font-size: 36px;
-    color: #725752; /* Dark nude text */
+    color: #ffffff; 
 }
 
 /* Buttons */
 QPushButton {
     font-size: 18px;
     padding: 10px;
-    color: #725752; /* Dark nude text */
-    background-color: #e4d7cb; /* Nude button background */
+    color: #ffffff; 
+    background-color: #35605a; 
     border: none;
     border-radius: 5px;
 }
 
 QPushButton:hover {
-    background-color: #d0b8a8; /* Lighter nude button background on hover */
+    background-color: #1d3d38; 
 }
 
 QPushButton:pressed {
-    background-color: #b79d8e; /* Even lighter nude button background when pressed */
+    background-color: #0c1d1a; 
 }
 
 /* Start Button */
 #start_button {
-    background-color: #7a5f55; /* Medium nude */
-    color: white;
+    background-color: #4ca58f; 
 }
 
 #start_button:hover {
-    background-color: #675046; /* Darker nude on hover */
+    background-color: #2d6c5f; 
 }
 
 /* Pause Button */
 #pause_button {
-    background-color: #e4c3a8; /* Light nude orange */
-    color: white;
+    background-color: #dd9140; 
 }
 
 #pause_button:hover {
-    background-color: #cfa08a; /* Lighter nude orange on hover */
+    background-color: #b3742c; 
 }
 
 /* Reset Button */
 #reset_button {
-    background-color: #c99484; /* Medium nude red */
-    color: white;
+    background-color: #d05a49; 
 }
 
 #reset_button:hover {
-    background-color: #b08270; /* Darker nude red on hover */
+    background-color: #9c3e35; 
 }
 
 /* Set Work Time Button */
 #work_time_button {
-    background-color: #b79d8e; /* Dark nude */
-    color: white;
+    background-color: #468faf; 
 }
 
 #work_time_button:hover {
-    background-color: #a0877a; /* Darker nude on hover */
+    background-color: #2e6672; 
 }
 
 /* Set Break Time Button */
 #break_time_button {
-    background-color: #968c82; /* Medium-dark nude */
-    color: white;
+    background-color: #71798d; 
 }
 
 #break_time_button:hover {
-    background-color: #84776d; /* Darker nude on hover */
+    background-color: #4b5562; 
 }
 
 /* Settings Menu */
 QMenu {
-    background-color: #f2e9e4; /* Light nude background */
+    background-color: #7fb7be; 
     border: none;
 }
 
 QMenu::item {
-    padding: 8px 32px; /* Adjust padding as needed */
-    background-color: #e4d7cb; /* Nude background */
+    padding: 8px 32px; 
+    background-color: #35605a; /
 }
 
 QMenu::item:selected {
-    background-color: #d0b8a8; /* Lighter nude background when selected */
-    color: #725752; /* Dark nude text */
+    background-color: #1d3d38; 
+    color: #ffffff; /
 }
 
 /* Hamburger Icon */
 #settings_menu {
     background-color: transparent;
     border: none;
-    font-size: 12px; /* Larger hamburger menu icon */
-    color: #725752; /* Dark nude text */
+    font-size: 12px; 
+    color: #ffffff;
     padding: 2px;
 }
 
 #settings_menu:hover {
-    background-color: #d0b8a8; /* Lighter nude background on hover */
-    border-radius: 5px; /* Add rounded corners */
+    background-color: #1d3d38; 
+    border-radius: 5px; 
 }
